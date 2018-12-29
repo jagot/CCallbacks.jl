@@ -1,0 +1,26 @@
+#+TITLE: CCallbacks.jl
+#+AUTHOR: Stefanos Carlström
+#+EMAIL: stefanos.carlstrom@gmail.com
+
+Two convenience macros for working with external C/Fortran libraries,
+inspired by [[https://gist.github.com/simonbyrne/c4146dc286fd5387385ca911e8318509][a Gist by Simon Byrne]]:
+
+Defining a Julia lambda function as a callback is very easy:
+#+BEGIN_SRC julia
+  callback = @ccallback (n::Ptr{Int32}, v::Ptr{Float64})::Cvoid begin
+      n = unsafe_load(n)
+      V = Vector{Float64}(undef, n)
+      unsafe_copyto!(pointer(V), v, n)
+      println("Data:")
+      display(V)
+  end
+#+END_SRC
+This generates a =Expr(:cfunction, ...)= primitive behind the
+scenes. The argument type is specified together with each argument,
+and the return type after the tuple.
+
+To use the callback, simply invoke
+#+BEGIN_SRC julia
+  @ccall (:function_name, library)(callback::Ptr{Cvoid}, other::Int, args::Float64)::Cvoid
+#+END_SRC
+

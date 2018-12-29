@@ -1,0 +1,6 @@
+authors = ["Stefanos Carlström <stefanos.carlstrom@gmail.com>"]
+name = "CCallbacks"
+uuid = "636c46c0-0b60-11e9-1eaf-c71b1a64a25f"
+version = "0.1.0"
+
+[deps]
