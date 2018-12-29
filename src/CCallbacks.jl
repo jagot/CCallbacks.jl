@@ -54,4 +54,6 @@ macro ccallback(arg_spec, body)
     esc(cfun)
 end
 
+export @ccall, @ccallback
+
 end # module
